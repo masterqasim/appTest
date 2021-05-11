@@ -1,24 +1,26 @@
 import logo from './logo.svg';
+import React, { Component , Fragment } from 'react'
 import './App.css';
+import { Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import SignIn from './screens/SignIn'
+import SignUp from './screens/SignUp'
+import Header from './components/Header'
+import Dashboard from './screens/Dashboard'
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Fragment>
+          <Header/>
+          <Route exact path="/" component={SignUp}></Route> 
+          <Route path="/SignIn" component={SignIn}/>
+          <Route path="/Dashboard" component={Dashboard}/>
+
+      </Fragment>
+    </Router>
   );
 }
 
