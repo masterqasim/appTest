@@ -8,7 +8,7 @@ import Container from '@material-ui/core/Container';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import {islogin} from '../store/actions/globalAction'
+import {islogin ,signUpAction} from '../store/actions/globalAction'
  class SignUp extends Component {
     state={
         fName:"",
@@ -36,7 +36,7 @@ e.preventDefault();
     }
     if(this.ValidateEmail(this.state.email)){
 
-        this.props.islogin(this.state.fName+ " "+ this.state.lName )
+        this.props.signUpAction(this.state)
         this.props.history.push("/Dashboard")
         this.setState({
             fName:"",
@@ -178,7 +178,8 @@ console.log(this.state)
 }
 const mapDispatchToProps = dispatch => {
     return {
-        islogin:(data)=>dispatch(islogin(data))
+        islogin:(data)=>dispatch(islogin(data)),
+        signUpAction:(data)=>dispatch(signUpAction(data))
     }
 }    
 export default  connect(null,mapDispatchToProps)(SignUp)

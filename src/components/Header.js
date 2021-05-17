@@ -4,7 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom'
-import {islogin} from '../store/actions/globalAction'
+import {islogin ,signOutAction} from '../store/actions/globalAction'
+import { Route , withRouter} from 'react-router-dom';
 import {connect} from 'react-redux'
 
  class Header extends Component {
@@ -12,11 +13,11 @@ import {connect} from 'react-redux'
      }
 
    signOut = () =>{
-        this.props.islogin('');
-         
+        this.props.signOutAction();
+        this.props.history.replace("/SignIn") 
     }
     render() {
-        console.warn(this.props.user,'aa')
+        console.warn(this.props.loggedIn,'aa')
         return (
             <AppBar 
                 style={{
@@ -26,7 +27,7 @@ import {connect} from 'react-redux'
                 }}>
                 <Toolbar>
                     <Typography variant="h5"  style={{ margin:'5px' , flexGrow: 1,  }}> Test Code</Typography>
-                    { this.props.user?
+                    { this.props.loggedIn?
                     <Link to='/SignIn' style={{textDecoration:'none'}}>
                         <Button 
                             variant="outlined" 
@@ -63,12 +64,12 @@ import {connect} from 'react-redux'
 }
 const mapStateToProps = (state) => {
     return{
-        login:state.globalReducer.islogin
+        loggedIn:state.globalReducer.loggedIn
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        islogin:(data)=>dispatch(islogin(data))
+        signOutAction:()=>dispatch(signOutAction())
     }
 }    
-export default  connect(mapStateToProps,mapDispatchToProps)(Header)
+export default  connect(mapStateToProps,mapDispatchToProps)(withRouter(Header))

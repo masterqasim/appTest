@@ -9,6 +9,9 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl'
+import {islogin ,signUpAction} from '../store/actions/globalAction'
+import {connect} from 'react-redux'
+
 // import Sign from './SignUp'
 
  class SignIn extends Component {
@@ -16,6 +19,11 @@ import FormControl from '@material-ui/core/FormControl'
         email:"",
         password:"",
     }
+componentDidMount() {
+    if(this.props.loggedIn){
+        this.props.history.push("/Dashboard")
+    }
+}    
 ValidateEmail = (mail) => {
 if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail))
     {
@@ -27,11 +35,13 @@ if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
 
 submitForm = ( e ) =>{
     e.preventDefault();
-    console.log(this.state)
 if(this.ValidateEmail(this.state.email)){
-
+    this.props.islogin(this.state)
+    console.log(this.props.loggedIn)
     this.props.history.push("/Dashboard")
 }
+
+    
 
 }
 handleInput = ( e ) =>{
@@ -110,4 +120,14 @@ handleInput = ( e ) =>{
         )
     }
 }
-export default SignIn;
+const mapDispatchToProps = dispatch => {
+    return {
+        islogin:(data)=>dispatch(islogin(data)),
+    }
+}
+const mapStateToProps = (state) => {
+    return{
+        loggedIn: state.globalReducer.loggedIn
+    }
+}    
+export default  connect(mapStateToProps,mapDispatchToProps)(SignIn)
